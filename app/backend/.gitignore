@@ -1,0 +1,17 @@
+*.pyc
+*.pyo
+__pycache__/
+.vscode
+.env
+core\project\settings\local.py
+.vscode/
+*.pyc
+.env
+core/project/settings/local.py
+static/*
+!static/.gitkeep
+*.sqlite*
+.venv/
+__pycache__/
+venv/*
+/venv/

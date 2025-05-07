@@ -1,0 +1,12 @@
+поднять докер композе с бд
+docker-compose -f .\docker_compose\storages.yaml --env-file .env up -d
+
+
+docker-compose -f docker_compose/app.yaml --env-file .env -f docker_compose/storages.yaml --env-file .env up -d --build
+
+
+
+docker exec -it main-app python manage.py makemigrations
+docker exec -it main-app python manage.py migrate
+docker exec -it main-app python manage.py collectstatic
+docker exec -it main-app python manage.py createsuperuser
