@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #first party
+    'core.apps.products.apps.ProductsConfig'
 ]
 
 MIDDLEWARE = [
@@ -75,9 +78,6 @@ WSGI_APPLICATION = 'core.project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-print("password",env.str('POSTGRES_PASSWORD', '5555552523gdfg'))
-print(env.str('POSTGRES_DB', 'monolith'))
-print(env.str('POSTGRES_PORT', '5432'))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
