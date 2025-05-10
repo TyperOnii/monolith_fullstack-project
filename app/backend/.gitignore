@@ -1,6 +1,6 @@
 .vscode/
 *.pyc
-.env
+#.env
 static/*
 !static/.gitkeep
 *.sqlite*

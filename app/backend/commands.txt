@@ -1,4 +1,5 @@
 docker-compose -f .\docker_compose\storages.yaml --env-file .env up -d
+docker-compose -f docker_compose/app.yaml -f docker_compose/storages.yaml down -v
 
 
 docker-compose -f docker_compose/app.yaml --env-file .env -f docker_compose/storages.yaml --env-file .env up -d --build
@@ -9,3 +10,17 @@ docker exec -it main-app python manage.py makemigrations
 docker exec -it main-app python manage.py migrate
 docker exec -it main-app python manage.py collectstatic
 docker exec -it main-app python manage.py createsuperuser
+
+
+#PS
+# 1. Остановить контейнеры
+docker ps -aq | ForEach-Object { docker stop $_ }
+
+# 2. Удалить контейнеры
+docker ps -aq | ForEach-Object { docker rm -f $_ }
+
+# 3. Удалить образы
+docker images -q | ForEach-Object { docker rmi -f $_ }
+
+# 4. Удалить тома
+docker volume ls -q | ForEach-Object { docker volume rm -f $_ }
