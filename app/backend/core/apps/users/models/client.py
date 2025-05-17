@@ -1,6 +1,9 @@
-from .user import User
 from django.db import models
+
 from core.apps.common.models import TimedBaseModel
+
+from .user import User
+
 
 class Client(TimedBaseModel):
     # TODO: Добавить логику, повышения статуса клиента

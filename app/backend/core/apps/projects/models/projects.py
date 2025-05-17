@@ -1,5 +1,7 @@
 from django.db import models
+
 from core.apps.common.models import TimedBaseModel
+
 
 class Project(TimedBaseModel):
     #TODO: при сохранении моделей которые расширяют проекты, нужно делать проверку, заполнились ли все обязательные поля, и только если да, менять is_visible на True

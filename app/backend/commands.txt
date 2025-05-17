@@ -9,3 +9,9 @@ docker exec -it main-app python manage.py makemigrations
 docker exec -it main-app python manage.py migrate
 docker exec -it main-app python manage.py collectstatic
 docker exec -it main-app python manage.py createsuperuser
+
+isort .
+pre-commit run --all-files
+
+pre-commit install
+pre-commit installed at .git\hooks\pre-commit

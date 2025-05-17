@@ -1,6 +1,9 @@
 from django.db import models
-from .user import User
+
 from core.apps.common.models import TimedBaseModel
+
+from .user import User
+
 
 class Admin(TimedBaseModel):
     user = models.OneToOneField(to = User, on_delete=models.CASCADE, related_name="admin_user")

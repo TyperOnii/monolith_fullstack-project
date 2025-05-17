@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 
+
 def validate_size_image(file_obj):
     """Валидация размера изображения"""
     megabite_limit = 5

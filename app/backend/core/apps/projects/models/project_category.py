@@ -1,7 +1,9 @@
 from django.db import models
 from django.forms import ValidationError
 from django.utils.text import slugify
+
 from core.apps.common.utils import unique_slugify
+
 
 class ProjectCategory(models.Model):
     floor = models.PositiveIntegerField(blank=True, null=True, verbose_name='Этажность' )

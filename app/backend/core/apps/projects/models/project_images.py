@@ -1,6 +1,10 @@
 from django.db import models
-from core.apps.common.utils import get_path_upload_project_images, validate_size_image
+
+from core.apps.common.utils import (get_path_upload_project_images,
+                                    validate_size_image)
+
 from .projects import Project
+
 
 class Project_Image(models.Model):
     #при удалении проекта, добавить удалении картинок

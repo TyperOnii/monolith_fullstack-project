@@ -1,5 +1,7 @@
 from django.db import models
+
 from .projects import Project
+
 
 class Project_Specifications(models.Model):
     project = models.OneToOneField(to = Project, on_delete=models.CASCADE, related_name = "project_specifications", verbose_name="Проект")
