@@ -17,6 +17,7 @@ class User(AbstractUser):
     is_verified_email = models.BooleanField(default=False, blank=True, verbose_name="Подтвержден ли email")
 
     class Meta:
+        db_table = "users_user"
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
     
