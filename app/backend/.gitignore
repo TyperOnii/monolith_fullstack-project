@@ -10,3 +10,6 @@ venv/*
 /venv/
 /test/
 test/*
+media/
+/media/
+*/media/
