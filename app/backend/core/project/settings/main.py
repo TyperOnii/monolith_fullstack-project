@@ -45,18 +45,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #first party
+    'core.apps.users.apps.UsersConfig',
     'core.apps.projects.apps.ProjectConfig',
-    #'core.apps.users.apps.UsersConfig',
+    'core.apps.baskets.apps.BasketsConfig',
     
-    "corsheaders",
+    'corsheaders',
     'rest_framework',
     'djoser',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddlewar',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -159,7 +161,7 @@ SPECTACULAR_SETTINGS = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-#AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

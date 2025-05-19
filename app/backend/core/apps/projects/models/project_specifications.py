@@ -3,7 +3,7 @@ from django.db import models
 from .projects import Project
 
 
-class Project_Specifications(models.Model):
+class ProjectSpecifications(models.Model):
     project = models.OneToOneField(to = Project, on_delete=models.CASCADE, related_name = "project_specifications", verbose_name="Проект")
     floors = models.PositiveIntegerField(verbose_name="Этажность")
     overall_length = models.FloatField(verbose_name="Длина")

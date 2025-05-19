@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.core.mail import send_mail
 from django.db import models
 from django.urls import reverse
@@ -15,6 +15,24 @@ class User(AbstractUser):
     role = models.CharField(choices=ROLE_CHOISES, max_length=128, default='client', verbose_name="Роль пользователя")
     phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Номер телефона пользователя")
     is_verified_email = models.BooleanField(default=False, blank=True, verbose_name="Подтвержден ли email")
+
+
+    # groups = models.ManyToManyField(
+    #     Group,
+    #     verbose_name='groups',
+    #     blank=True,
+    #     help_text='The groups this user belongs to.',
+    #     related_name="custom_user_set",  
+    #     related_query_name="user",
+    # )
+    # user_permissions = models.ManyToManyField(
+    #     Permission,
+    #     verbose_name='user permissions',
+    #     blank=True,
+    #     help_text='Specific permissions for this user.',
+    #     related_name="custom_user_set",  
+    #     related_query_name="user",
+    # )
 
     class Meta:
         db_table = "users_user"
