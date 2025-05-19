@@ -1,14 +1,17 @@
+Запуск контейнера с бд:
 docker-compose -f .\docker_compose\storages.yaml --env-file .env up -d
+
+Запуск контейнера с приложением:
 docker-compose -f docker_compose/app.yaml -f docker_compose/storages.yaml down -v
 
 
+Для запуска всего бэкенда ввести следующие команды, если бэкенж уже запускался и локальный репозиторий не обновлялся, то можно обойтись только первой командой:
 docker-compose -f docker_compose/app.yaml --env-file .env -f docker_compose/storages.yaml --env-file .env up -d --build
-
-
-
 docker exec -it main-app python manage.py makemigrations
 docker exec -it main-app python manage.py migrate
 docker exec -it main-app python manage.py collectstatic
+
+Создание супер пользователя, для входа в админку: 
 docker exec -it main-app python manage.py createsuperuser
 
 
@@ -25,8 +28,11 @@ docker images -q | ForEach-Object { docker rmi -f $_ }
 # 4. Удалить тома
 docker volume ls -q | ForEach-Object { docker volume rm -f $_ }
 
-isort .
-pre-commit run --all-files
 
+Установка прекоммитов в локальный репозиторий
 pre-commit install
 pre-commit installed at .git\hooks\pre-commit
+
+Запуск прекоммитов 
+isort .
+pre-commit run --all-files

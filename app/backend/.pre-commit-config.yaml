@@ -3,7 +3,7 @@ exclude: ^.*\b(migrations)\b.*$
 repos:
 
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.18.0
+    rev: v2.31.1
     hooks:
     -   id: pyupgrade
         args: [--py38-plus]
@@ -15,7 +15,7 @@ repos:
         args: [--py36-plus]
 
 -   repo: https://github.com/myint/autoflake
-    rev: v2.3.1
+    rev: v2.2.1
     hooks:
     -   id: autoflake
         args: [
@@ -33,12 +33,12 @@ repos:
 #         args: ['-S']
 
 -   repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+    rev: 5.13.2
     hooks:
     -   id: isort
 
 -  repo: https://github.com/myint/docformatter
-   rev: v1.7.7
+   rev: v1.7.5
    hooks:
      - id: docformatter
        args: [
@@ -53,7 +53,7 @@ repos:
 #         args: [--ignore-missing-imports]
 
 -   repo: https://github.com/pycqa/flake8
-    rev: 7.2.0
+    rev: 7.0.0
     hooks:
     -   id: flake8
         args: [
