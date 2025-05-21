@@ -6,7 +6,12 @@ from .user import User
 
 
 class Admin(TimedBaseModel):
-    user = models.OneToOneField(to = User, on_delete=models.CASCADE, related_name="admin_user")
+    #TODO: сделать primary key
+    user = models.OneToOneField(
+        to = User,
+        on_delete=models.CASCADE,
+        related_name="admin_user"
+        )
 
 
     class Meta:

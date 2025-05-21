@@ -23,3 +23,17 @@ urlpatterns = [
     path('api/', include(('core.api.urls', 'api'), namespace='api')),
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
 ]
+
+
+#TODO: не работает
+def custom_preprocessing_filter(endpoints):
+    filtered = []
+    for path, path_regex, method, callback in endpoints:
+        # Для эндпоинтов /api/auth/
+        if path.startswith('/api/auth/'):
+            callback.__dict__['tags'] = ['auth']
+        # Для остальных эндпоинтов /api/
+        elif path.startswith('/api/'):
+            callback.__dict__['tags'] = ['api']
+        filtered.append((path, path_regex, method, callback))
+    return filtered

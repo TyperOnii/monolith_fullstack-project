@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_spectacular',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -154,6 +155,21 @@ SPECTACULAR_SETTINGS = {
 
     'ENABLE_DJANGO_DEPLOY_CHECK': False,
     'DISABLE_ERRORS_AND_WARNINGS': True,
+
+    'TAGS': [
+        {
+            'name': 'auth',
+            'description': 'Аутентификация и управление пользователями'
+        },
+        {
+            'name': 'api',
+            'description': 'Основное API приложения'
+        }
+    ],
+
+    'PREPROCESSING_HOOKS': [
+        'core.project.urls.custom_preprocessing_filter'
+    ]
 }
 
 
@@ -162,6 +178,10 @@ SPECTACULAR_SETTINGS = {
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = [
+    'core.apps.users.backends.CustomUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    ]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
