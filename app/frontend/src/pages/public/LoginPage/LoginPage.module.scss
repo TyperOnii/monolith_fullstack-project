@@ -1,0 +1,15 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    input {
+        height: 40px;
+        font-size: 20px;
+    }
+    label {
+        font-size: 20px;
+    }
+    button {
+        height: 50px;
+    }
+}
