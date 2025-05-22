@@ -1,6 +1,9 @@
-from .user import User
 from django.db import models
+
 from core.apps.common.models import TimedBaseModel
+
+from .user import User
+
 
 class Client(TimedBaseModel):
     # TODO: Добавить логику, повышения статуса клиента
@@ -16,8 +19,13 @@ class Client(TimedBaseModel):
         (75, 75),
         (100, 100),
     ]
-     
-    user = models.OneToOneField(to = User, on_delete=models.CASCADE, related_name='client_user')
+    
+    #TODO: сделать primary key
+    user = models.OneToOneField(
+        to = User,
+        on_delete=models.CASCADE,
+        related_name='client_user'
+        )
     recommendation_status = models.CharField(
         max_length=10,
         choices=RECOMMENDATION_STATUS_CHOICES,
@@ -29,9 +37,22 @@ class Client(TimedBaseModel):
         choices=PROJECT_COMPLETION_PERCENTAGE_CHOICES,
         verbose_name="Процент завершенности проекта"
     )
-    city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Город")
-    referral_code = models.OneToOneField('ReferralCode', on_delete=models.SET_NULL, null=True, blank=True, related_name='user_referral')
-    referral_code_used = models.PositiveIntegerField(default=0, verbose_name="Число использований реферального кода пользователя")
+    city = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Город")
+    referral_code = models.OneToOneField(
+        'ReferralCode',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='user_referral'
+        )
+    referral_code_used = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Число использований реферального кода пользователя"
+        )
 
     class Meta:
         verbose_name = "Клиент"

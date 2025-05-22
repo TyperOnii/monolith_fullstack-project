@@ -15,9 +15,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import include, path
+from drf_spectacular.views import SpectacularAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(('core.api.urls', 'api'), namespace='api')),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
 ]
+
+
+#TODO: не работает
+def custom_preprocessing_filter(endpoints):
+    filtered = []
+    for path, path_regex, method, callback in endpoints:
+        # Для эндпоинтов /api/auth/
+        if path.startswith('/api/auth/'):
+            callback.__dict__['tags'] = ['auth']
+        # Для остальных эндпоинтов /api/
+        elif path.startswith('/api/'):
+            callback.__dict__['tags'] = ['api']
+        filtered.append((path, path_regex, method, callback))
+    return filtered

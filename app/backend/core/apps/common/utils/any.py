@@ -1,5 +1,7 @@
 from uuid import uuid4
+
 from django.utils.text import slugify
+
 
 def unique_slugify(instance, slug):
     """

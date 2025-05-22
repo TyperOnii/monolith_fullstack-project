@@ -8,3 +8,11 @@ static/*
 __pycache__
 venv/*
 /venv/
+/test/
+test/*
+media/
+/media/
+*/media/
+
+# */migrations/*
+# !*/migrations/__init__.py
