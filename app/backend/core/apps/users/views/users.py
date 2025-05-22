@@ -70,6 +70,7 @@ class MeView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = user_serializers.MeSerializer
     permission_classes = (IsAuthenticated,)
+    http_method_names = ['get', 'patch']
 
     def get_serializer_class(self):
         if self.request.method in ('PUT', 'PATCH'):
