@@ -13,3 +13,6 @@ test/*
 media/
 /media/
 */media/
+
+# */migrations/*
+# !*/migrations/__init__.py

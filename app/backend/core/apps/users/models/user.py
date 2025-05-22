@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.timezone import now
 from phonenumber_field.modelfields import PhoneNumberField
 
-from core.apps.users.models.managers import CustomUserManager
+from core.apps.users.managers import CustomUserManager
 
 
 class User(AbstractUser):
