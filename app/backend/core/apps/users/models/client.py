@@ -49,10 +49,10 @@ class Client(TimedBaseModel):
         blank=True,
         related_name='user_referral'
         )
-    referral_code_used = models.PositiveIntegerField(
-        default=0,
-        verbose_name="Число использований реферального кода пользователя"
-        )
+    # referral_code_used = models.PositiveIntegerField(
+    #     default=0,
+    #     verbose_name="Число использований реферального кода пользователя"
+    #     )
 
     class Meta:
         verbose_name = "Клиент"

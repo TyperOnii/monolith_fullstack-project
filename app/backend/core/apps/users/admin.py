@@ -16,7 +16,7 @@ class ClientInline(admin.StackedInline):
     model = Client
     can_delete = False
     verbose_name = "Профиль клиента"
-    readonly_fields = ('referral_code_used',)
+    readonly_fields = ('created_at', 'updated_at')
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):

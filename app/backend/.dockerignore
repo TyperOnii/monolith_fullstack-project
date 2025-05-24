@@ -1,2 +1,7 @@
 docker_compose/
 *.pyc
+venv
+.git
+db.sqlite3 
+.idea
+.vscode

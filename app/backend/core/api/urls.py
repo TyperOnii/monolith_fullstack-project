@@ -2,6 +2,7 @@ from core.api.spectacular.urls import urlpatterns as doc_urls
 from django.urls import path, include
 
 from core.apps.users.urls import urlpatterns as users_urls
+from core.apps.projects.urls import urlpatterns as projects_urls
 
 app_name = 'api'
 # сюда импортировать v1 router as v1_router и инклюдить к основному роутеру
@@ -12,6 +13,7 @@ urlpatterns = [
 urlpatterns += doc_urls
 
 urlpatterns += users_urls
+urlpatterns += projects_urls
 
 # def custom_preprocessing_filter(endpoints):
 #     filtered = []

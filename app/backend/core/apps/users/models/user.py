@@ -9,6 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from core.apps.users.managers import CustomUserManager
 
 
+
 class User(AbstractUser):
     ROLE_CHOICES = [
         ('client',"Обычный пользователь"),

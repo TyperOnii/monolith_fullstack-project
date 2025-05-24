@@ -4,45 +4,12 @@ from django.db import transaction
 from rest_framework.exceptions import ParseError
 from rest_framework import serializers
 
-from core.apps.users.serializers.nested.admin_profile import AdminProfileShortSerializer, AdminProfileUpdateSerializer
-from core.apps.users.serializers.nested.client_profile import ClientProfileShortSerializer, ClientProfileUpdateSerializer
 from core.apps.users.models import  Admin, Client
-
+from core.apps.users.serializers.api.mixins import ProfileSerializerMixin, ProfileUpdateMixin
 
 
 User = get_user_model()
 
-
-class ProfileSerializerMixin:
-    def get_profile_serializer(self, obj):
-        profile_mapping = {
-            'admin': (AdminProfileShortSerializer, 'admin_user'),
-            'client': (ClientProfileShortSerializer, 'client_user'),
-        }
-        
-        serializer_class, profile_attr = profile_mapping.get(obj.role, (None, None))
-        
-        if not serializer_class or not hasattr(obj, profile_attr):
-            return None
-        
-        profile = getattr(obj, profile_attr)
-        return serializer_class(profile, context=self.context).data
-
-class ProfileUpdateMixin:
-    def get_profile_serializer(self, instance):
-        role = instance.role
-        profile_mapping = {
-            'admin': (AdminProfileUpdateSerializer, 'admin_user'),
-            'client': (ClientProfileUpdateSerializer, 'client_user'),
-        }
-        serializer_class, profile_attr = profile_mapping.get(role, (None, None))
-        
-        if not serializer_class or not hasattr(instance, profile_attr):
-            raise serializers.ValidationError(
-                {'profile': f'Профиль для роли {role} не найден'}
-            )
-            
-        return serializer_class(getattr(instance, profile_attr))
 
 class RegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()

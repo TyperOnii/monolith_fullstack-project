@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 
 ]
 
@@ -121,6 +122,7 @@ REST_FRAMEWORK = {
     ],
     
     'DEFAULT_SCHEMA_CLASS' : 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'core.apps.common.pagination.BasePagination',
     
 }
 
@@ -164,7 +166,19 @@ SPECTACULAR_SETTINGS = {
         {
             'name': 'api',
             'description': 'Основное API приложения'
-        }
+        },
+        {
+            'name': 'baskets',
+            'description': 'Корзины'
+        },
+        {
+            'name': 'projects',
+            'description': 'Проекты'
+        },
+        {
+            'name': 'users',
+            'description': 'Пользователи'
+        },
     ],
 
     'PREPROCESSING_HOOKS': [
