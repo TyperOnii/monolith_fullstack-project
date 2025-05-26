@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     
     'corsheaders',
     'rest_framework',
+    'django_filters',
     'djoser',
     'drf_spectacular',
     'phonenumber_field',

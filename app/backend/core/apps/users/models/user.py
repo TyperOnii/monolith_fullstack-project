@@ -11,6 +11,7 @@ from core.apps.users.managers import CustomUserManager
 
 
 class User(AbstractUser):
+    #TODO: опечатка в константе, должно быть ROLE_CHOICES
     ROLE_CHOICES = [
         ('client',"Обычный пользователь"),
         ('admin','Администратор сайта'),
@@ -136,3 +137,15 @@ class EmailVerification(models.Model):
 #             Admin.objects.create(user=instance)
 #         elif instance.role == 'client':
 #             Client.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def post_save_user_receiver(sender, instance, created, *args, **kwargs):
+#     if created:
+#         email_verification = EmailVerification.objects.create(user=instance)
+#         email_verification.send_verification_email()
+
+Group.add_to_class(
+    'code', models.CharField(
+        'Code', max_length=128, null = True, unique=True
+    )
+)

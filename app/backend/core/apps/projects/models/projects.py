@@ -1,7 +1,7 @@
 from django.db import models
 
 from core.apps.common.models import TimedBaseModel
-
+#from .project_services import Service
 
 class Project(TimedBaseModel):
     #TODO: при сохранении моделей которые расширяют проекты, нужно делать проверку, заполнились ли все обязательные поля, и только если да, менять is_visible на True
@@ -14,6 +14,14 @@ class Project(TimedBaseModel):
         default='',
         verbose_name='Описание проекта'
         )
+    
+    services = models.ManyToManyField(
+        'Service',
+        through='ProjectService',
+        related_name='projects',
+        verbose_name='Услуги в проекте',
+        help_text='Услуги которые были добавлены для этого проекта'
+    )
     is_visible = models.BooleanField(
         default=False,
         verbose_name = 'Виден ли проект в катологе'

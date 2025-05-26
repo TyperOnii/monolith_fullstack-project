@@ -11,13 +11,13 @@ class Service(models.Model):
     """
     title = models.CharField(max_length=1024, verbose_name="Название услуги")
     description = models.TextField(verbose_name = "Подробное описание")
-    projects = models.ManyToManyField(
-        Project,
-        through='ProjectService',
-        related_name='services',
-        verbose_name="Связанные проекты",
-        help_text="Проекты, в которых доступна эта услуга"
-    )
+    # projects = models.ManyToManyField(
+    #     Project,
+    #     through='ProjectService',
+    #     related_name='services',
+    #     verbose_name="Связанные проекты",
+    #     help_text="Проекты, в которых доступна эта услуга"
+    # )
     
 
     def __str__(self):
@@ -26,6 +26,7 @@ class Service(models.Model):
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
+        db_table = "Service"
 
 
 class ProjectService(models.Model):
