@@ -9,54 +9,16 @@ from core.apps.projects.models.projects import Project
 from core.apps.projects.serializers.api import projects as project_serializers
 from core.apps.projects.filters import ProjectFilter
 from core.apps.projects.backends import MyProjectBackend
+from core.apps.common.description import get_description
 
 
 #TODO: Подумать нужно ли это представление? Либо убрать list в ProjectView
-@extend_schema_view(
-    list=extend_schema(
-        summary='Список проектов для просмотра в каталоге',
-        description='Список проектов для просмотра в каталоге',
-        tags=['projects'],
-        )
-    )
 class ProjectSearchListView(ListViewSet):
     queryset = Project.objects.filter(is_visible=True)
     serializer_class = project_serializers.ProjectSearchListSerializer
 
 
-@extend_schema_view(
-    list=extend_schema(
-        summary='Список проектов',
-        description='Для администратора возвращает список всех проектов.' \
-        ' Для пользователя возвращает список видимых проектов ( is_visible=True )', 
-        tags=['projects'],
-    ),
-    create=extend_schema(
-        summary='Создание проекта',
-        description='Создание проекта',
-        tags=['projects'],
-    ),
-    update=extend_schema(
-        summary='Обновление проекта',
-        description='Обновление проекта',
-        tags=['projects'],
-    ),
-    partial_update=extend_schema(
-        summary='Частичное обновление проекта',
-        description='Частичное обновление проекта',
-        tags=['projects'],
-    ),
-    retrieve=extend_schema(
-        summary='Получение проекта',
-        description='Получение проекта',
-        tags=['projects'],
-    ),
-    destroy=extend_schema(
-        summary='Удаление проекта',
-        description='Удаление проекта',
-        tags=['projects'],
-    )
-)
+
 class ProjectView(CRUDViewSet):
     queryset = Project.objects.all()
     serializer_class = project_serializers.ProjectListSerializer
@@ -116,4 +78,68 @@ class ProjectView(CRUDViewSet):
 
         return queryset
 
-        
+
+project_model_schema = extend_schema_view(
+    list=extend_schema(
+        summary='Список проектов',
+        description=get_description(
+            action='list', 
+            view=ProjectView
+        ),
+        tags=['projects'],
+        ),
+    create=extend_schema(
+        summary='Создание проекта',
+        description=get_description(
+            action='create', 
+            view=ProjectView
+        ),
+        tags=['projects'],
+        ),
+    update=extend_schema(
+        summary='Обновление проекта',
+        description=get_description(
+            action='update', 
+            view=ProjectView
+        ),
+        tags=['projects'],
+        ),
+    destroy=extend_schema(
+        summary='Удаление проекта',
+        description=get_description(
+            action='destroy', 
+            view=ProjectView
+        ),
+        tags=['projects'],
+        ),
+    retrieve=extend_schema(
+        summary='Просмотр проекта',
+        description=get_description(
+            action='retrieve', 
+            view=ProjectView
+        ),
+        tags=['projects'],
+        ),
+    partial_update=extend_schema(
+        summary='Частичное обновление проекта',
+        description=get_description(
+            action='partial_update', 
+            view=ProjectView
+        ),
+        tags=['projects'],
+    )
+)
+
+project_search_list_schema = extend_schema_view(
+    list=extend_schema(
+        summary='Список проектов для просмотра в каталоге',
+        description=get_description(
+            action='list', 
+            view=ProjectSearchListView
+        ),
+        tags=['projects'],
+        )
+    )
+
+project_search_list_schema = project_search_list_schema(ProjectSearchListView)
+ProjectView_schema = project_model_schema(ProjectView)
