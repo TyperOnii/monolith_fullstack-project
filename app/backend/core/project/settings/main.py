@@ -27,7 +27,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='mysecretkey')
-
+ADMIN_SECRET_KEY = env('ADMIN_SECRET_KEY', default='key2')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -55,18 +55,22 @@ INSTALLED_APPS = [
     'djoser',
     'drf_spectacular',
     'phonenumber_field',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'crum.CurrentRequestUserMiddleware',
+    
 
 ]
 
@@ -281,4 +285,21 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=1),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=7),
+}
+
+######################################
+##### DEBUG TOOLBAR
+######################################
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [
+    "127.0.0.1", 
+    "localhost",
+    "host.docker.internal",
+] + [ip[:-1] + "1" for ip in ips]
+
+# Дополнительные настройки для Docker
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
 }

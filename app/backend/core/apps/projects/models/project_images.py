@@ -8,6 +8,7 @@ from .projects import Project
 
 class ProjectImage(models.Model):
     #при удалении проекта, добавить удалении картинок
+    #TODO: добавить возможность выбора главной фотографии
     project = models.ForeignKey(
         to=Project,
         on_delete=models.CASCADE,
@@ -25,3 +26,21 @@ class ProjectImage(models.Model):
     class Meta:
         verbose_name = "Изображения проекта"
         verbose_name_plural = "Изображения проектов"
+
+
+    def save(self, *args, **kwargs):
+        """
+        При сохранении изображения обновляем видимость проекта
+        """
+        super().save(*args, **kwargs)
+        self.project.update_visibility()
+        self.project.save(update_fields=['is_visible'])
+    
+    def delete(self, *args, **kwargs):
+        """
+        При удалении изображения обновляем видимость проекта
+        """
+        project = self.project
+        super().delete(*args, **kwargs)
+        project.update_visibility()
+        project.save(update_fields=['is_visible'])

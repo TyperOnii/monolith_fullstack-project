@@ -12,6 +12,7 @@ class CustomUserManager(BaseUserManager):
         if email:
             email = self.normalize_email(email)
         
+        # TODO: сократить до username = username or email or phone_number
         if not username:
             if email:
                 username = email

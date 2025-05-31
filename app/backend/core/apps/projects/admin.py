@@ -3,6 +3,16 @@ from django.contrib import admin
 from core.apps.projects.models import Project, ProjectSpecifications, Service, ProjectService, ProjectImage, ProjectCategory
 from django.db.models import Count
 
+
+
+@admin.action(description='Проверить видимость выбранных проектов')
+def check_visibility(modeladmin, request, queryset):
+    for project in queryset:
+        project.update_visibility()
+        project.save(update_fields=['is_visible'])
+
+
+
 class ProjectSpecificationsInline(admin.StackedInline):
     model = ProjectSpecifications
     verbose_name = "Характеристики проекта"
@@ -39,7 +49,8 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ("title", "description")
     list_filter = ('created_at', 'updated_at', 'is_visible')
     ordering = ('title',)
-    inlines = [ProjectSpecificationsInline, ProjectServiceInline, ProjectImageInline] 
+    inlines = [ProjectSpecificationsInline, ProjectServiceInline, ProjectImageInline]
+    actions = [check_visibility]
 
     def count_services(self, obj):
         return obj.count_services

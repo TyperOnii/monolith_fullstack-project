@@ -74,3 +74,8 @@ class CRUViewSet(ExtendedGenericViewSet,
 class CRUDViewSet(CRUViewSet,
                   mixins.DestroyModelMixin):
     pass
+
+class CDViewSet(ExtendedGenericViewSet,
+                mixins.CreateModelMixin,
+                mixins.DestroyModelMixin):
+    pass

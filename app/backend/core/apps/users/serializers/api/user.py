@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework.exceptions import ParseError
 from rest_framework import serializers
+from django.conf import settings
 
 from core.apps.users.models import  Admin, Client
 from core.apps.users.serializers.api.mixins import ProfileSerializerMixin, ProfileUpdateMixin
@@ -12,9 +13,10 @@ User = get_user_model()
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField()
+    email = serializers.EmailField(required=False)
     password = serializers.CharField(write_only=True)
-    
+    phone_number = serializers.CharField(required=False)
+
     class Meta:
         model = User
         fields = (
@@ -23,6 +25,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
             'password',
+            'phone_number',
+            'role',
         )
     
     def validate_email(self, value):
@@ -31,12 +35,32 @@ class RegistrationSerializer(serializers.ModelSerializer):
             raise ParseError('Пользователь с таким email уже существует')
         return email
     
+    def validate_phone_number(self, value):
+        phone_number = value
+        if User.objects.filter(phone_number=phone_number).exists():
+            raise ParseError('Пользователь с таким номером телефона уже существует')
+        return phone_number
+    
     def validate_password(self, value):
         validate_password(value)
         return value
     
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        request = self.context.get('request')
+        role = validated_data.get('role')
+        if role == 'admin':
+
+            if not request.data.get('secret_key'):
+                raise ParseError('Для создания администратора необходимо указать secret_key')
+            #TODO: def chech_secret_key(self, value):
+            if request.data.get('secret_key') != settings.ADMIN_SECRET_KEY:
+                raise ParseError('Неверный Secret_key')
+            
+            user = User.objects.create_user(**validated_data)
+            Admin.objects.create(user=user)
+        elif role == 'client':
+            user = User.objects.create_user(**validated_data)
+            Client.objects.create(user=user)
 
 
         #user.refresh_from_db()
@@ -81,7 +105,7 @@ class MeSerializer(ProfileSerializerMixin, serializers.ModelSerializer):
         model = User
         fields = (
             'id',
-            'username',
+#            'username',
             'first_name',
             'last_name',
             'role',
@@ -99,7 +123,7 @@ class MeUpdateSerializer(ProfileUpdateMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username',
+#            'username',
             'first_name',
             'last_name',
             'email',

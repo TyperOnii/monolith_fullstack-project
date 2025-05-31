@@ -10,6 +10,8 @@ from core.apps.users.serializers.api import user as user_serializers
 
 User = get_user_model()
 
+
+#TODO наследоватся от кастомного представления из common
 @extend_schema_view(
     post=extend_schema(
         summary='Регистрация пользователя',
@@ -24,7 +26,7 @@ class RegistrationView(CreateAPIView):
     serializer_class = user_serializers.RegistrationSerializer
     permission_classes = (AllowAny,)
 
-
+#TODO наследоватся от кастомного представления из common
 @extend_schema_view(
     post=extend_schema(
         summary='Смена пароля',
@@ -44,6 +46,7 @@ class ChangePasswordView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
+#TODO наследоватся от кастомного представления из common
 @extend_schema_view(
     get=extend_schema(
         summary='Получение информации о пользователе',

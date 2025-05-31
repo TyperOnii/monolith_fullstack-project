@@ -11,7 +11,7 @@ from core.apps.projects.filters import ProjectFilter
 from core.apps.projects.backends import MyProjectBackend
 
 
-
+#TODO: Подумать нужно ли это представление? Либо убрать list в ProjectView
 @extend_schema_view(
     list=extend_schema(
         summary='Список проектов для просмотра в каталоге',
@@ -27,7 +27,8 @@ class ProjectSearchListView(ListViewSet):
 @extend_schema_view(
     list=extend_schema(
         summary='Список проектов',
-        description='Список проектов',
+        description='Для администратора возвращает список всех проектов.' \
+        ' Для пользователя возвращает список видимых проектов ( is_visible=True )', 
         tags=['projects'],
     ),
     create=extend_schema(
@@ -60,7 +61,7 @@ class ProjectView(CRUDViewSet):
     queryset = Project.objects.all()
     serializer_class = project_serializers.ProjectListSerializer
     permission_classes = [AllowAny]
-    # Настроить разрешения
+    #TODO: Настроить разрешения
     multi_permission_classes = {
         'list': [AllowAny],
         'create': [AllowAny],
@@ -95,6 +96,8 @@ class ProjectView(CRUDViewSet):
     filterset_class = ProjectFilter
 
     def get_queryset(self):
+        #TODO: вынести в Factory
+        #TODO Prefetch('services', queryset=Service.objects.only('id', 'name'))
         user = self.request.user
         queryset = Project.objects.prefetch_related(
             'services',
@@ -108,5 +111,9 @@ class ProjectView(CRUDViewSet):
             #     output_field=BooleanField()
             # )
         )
+        # if user.role == 'client':
+        #     queryset = queryset.filter(is_visible=True)
 
         return queryset
+
+        
