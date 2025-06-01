@@ -16,6 +16,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=False)
     password = serializers.CharField(write_only=True)
     phone_number = serializers.CharField(required=False)
+    role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
 
     class Meta:
         model = User
@@ -43,6 +44,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
     
     def validate_password(self, value):
         validate_password(value)
+        return value
+    
+    def validate_role(self, value):
+        if value not in ('admin', 'client'):
+            raise ParseError('Неверное значение поля role. Допустимые значения: admin, client')
         return value
     
     def create(self, validated_data):

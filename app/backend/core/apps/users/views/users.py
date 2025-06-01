@@ -5,17 +5,31 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.conf import settings
 from core.apps.users.serializers.api import user as user_serializers
 
 User = get_user_model()
 
+if settings.DEBUG:
+    secret_key = settings.ADMIN_SECRET_KEY
+else: 
+    secret_key = "Скрыт"
 
 #TODO наследоватся от кастомного представления из common
 @extend_schema_view(
     post=extend_schema(
         summary='Регистрация пользователя',
-        description='Регистрация пользователя',
+        description=f"""
+        Регестрация пользователя по email или phone_number на выбор
+
+        При регестрации пользователя необходимо указать role.
+        Варианты для role:
+            - admin
+            - client
+
+        При регистрации администратора необходимо указать secret_key.
+        sekret_key: {secret_key}
+        """, 
         tags=['auth'],
         # request=RegistrationSerializer,
         # responses={201: RegistrationSerializer}
