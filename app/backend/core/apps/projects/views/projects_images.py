@@ -27,7 +27,7 @@ create_schema = extend_schema(
         action='create', 
         view=ProjectImagesView  
     ),
-    tags=['projects'],
+    tags=['projects-manage'],
 )(ProjectImagesView.create)
 
 destroy_schema = extend_schema(
@@ -36,7 +36,7 @@ destroy_schema = extend_schema(
         action='destroy', 
         view=ProjectImagesView
     ),
-    tags=['projects'],
+    tags=['projects-manage'],
 )(ProjectImagesView.destroy)
 
 

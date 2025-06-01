@@ -94,7 +94,7 @@ project_model_schema = extend_schema_view(
             action='create', 
             view=ProjectView
         ),
-        tags=['projects'],
+        tags=['projects-manage'],
         ),
     update=extend_schema(
         summary='Обновление проекта',
@@ -102,7 +102,7 @@ project_model_schema = extend_schema_view(
             action='update', 
             view=ProjectView
         ),
-        tags=['projects'],
+        tags=['projects-manage'],
         ),
     destroy=extend_schema(
         summary='Удаление проекта',
@@ -110,7 +110,7 @@ project_model_schema = extend_schema_view(
             action='destroy', 
             view=ProjectView
         ),
-        tags=['projects'],
+        tags=['projects-manage'],
         ),
     retrieve=extend_schema(
         summary='Просмотр проекта',
@@ -126,7 +126,7 @@ project_model_schema = extend_schema_view(
             action='partial_update', 
             view=ProjectView
         ),
-        tags=['projects'],
+        tags=['projects-manage'],
     )
 )
 

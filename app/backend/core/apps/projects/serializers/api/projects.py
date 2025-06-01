@@ -6,6 +6,7 @@ from core.apps.common.serializers import ExtendedModelsSerializer
 from core.apps.projects.models.projects import Project
 from core.apps.projects.serializers.api.project_specifications import ProjectSpecificationsSerializer
 from core.apps.projects.serializers.api.project_images import ProjectImagesListSerializer
+from core.apps.projects.serializers.nested.project_services import ProjectServiceNestedSerializer
 
 #TODO Добавить миксин для наследования всех сериализаторов проектов
 
@@ -33,6 +34,7 @@ class ProjectListSerializer(ExtendedModelsSerializer):
         fields = ('id', 'title', 'description',  'is_visible', 'project_specifications', 'main_image')
 
     def get_main_image(self, obj):
+        #TODO: Добавить в модель поле main_image
         first_image = obj.project_images.first()
         if first_image:
             return ProjectImagesListSerializer(first_image).data
@@ -41,10 +43,11 @@ class ProjectListSerializer(ExtendedModelsSerializer):
 class ProjectRetrieveSerializer(ExtendedModelsSerializer):
     project_images = ProjectImagesListSerializer(many=True)
     project_specifications = ProjectSpecificationsSerializer()
+    services = ProjectServiceNestedSerializer(many=True)
 
     class Meta:
         model = Project
-        fields = ('id', 'title', 'description', 'is_visible', 'project_images', 'project_specifications')
+        fields = ('id', 'title', 'description', 'is_visible', 'project_images', 'project_specifications', 'services')
 
     
 

@@ -25,6 +25,7 @@ def get_description(action, view, descr_key = None, *args, **kwargs) -> str:
     
     model = view.queryset.model
     permissions = view.permission_classes
+    
     def get_permissions_text(permissions):
         permissions_doc = []
         for permission in permissions:
@@ -39,9 +40,8 @@ def get_description(action, view, descr_key = None, *args, **kwargs) -> str:
     text = f"""
     Для: {MAPPING_ACTION_TEXT[action]} {model._meta.verbose_name}
     Ограничения: {get_permissions_text(permissions)}
-    """
-
     
+    """
 
     return text
 

@@ -9,7 +9,7 @@ class Service(models.Model):
     Каждый проект имеет свой состав услуг.
     Какие услуги могут быть у проекта, регулируется админом, то есть экземпляры этой модели создаются админом.
     """
-    title = models.CharField(max_length=1024, verbose_name="Название услуги")
+    title = models.CharField(max_length=1024, verbose_name="Название услуги", unique=True)
     description = models.TextField(verbose_name = "Подробное описание")
     # projects = models.ManyToManyField(
     #     Project,
