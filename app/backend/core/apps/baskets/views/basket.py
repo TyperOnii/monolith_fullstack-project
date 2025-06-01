@@ -1,4 +1,4 @@
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiResponse
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -99,13 +99,80 @@ backet_schema = extend_schema_view(
     ),
     summary = extend_schema(
         summary = 'Получение сводной информации о корзине',
+        responses={
+        200: OpenApiResponse(
+            description='Успешный ответ с информацией о корзине',
+            response={
+                'type': 'object',
+                'properties': {
+                    'total_sum': {
+                        'type': 'integer',
+                        'description': 'Общая сумма товаров в корзине'
+                    },
+                    'total_quantity': {
+                        'type': 'integer',
+                        'description': 'Общее количество товаров в корзине'
+                    },
+                    'items': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                # Описание полей вашего сериализатора BasketListSerializer
+                            }
+                        },
+                        'description': 'Список товаров в корзине'
+                    }
+                }
+            }
+        ),
+        400: OpenApiResponse(
+            description='Ошибка валидации',
+            response={
+                'type': 'object',
+                'properties': {
+                    'error': {
+                        'type': 'string',
+                        'description': 'Текст ошибки'
+                    }
+                }
+            }
+        )
+    },
         description = 'Получение сводной информации о корзине',
         tags = ['baskets']
     ),
     merge = extend_schema(
-        summary = 'Слияние корзины из сессии с корзиной пользователя',
-        description = 'Слияние корзины из сессии с корзиной пользователя',
-        tags = ['baskets']
+        summary='Слияние корзины из сессии с корзиной пользователя',
+    methods=['POST'],
+    request=BasketMergeSerializer,
+    responses={
+        200: OpenApiResponse(
+            description='Корзина успешно объединена',
+            response={
+                'type': 'object',
+                'properties': {
+                    'message': {
+                        'type': 'string',
+                        'description': 'Сообщение об успешном объединении корзины'
+                    }
+                }
+            }
+        ),
+        401: OpenApiResponse(
+            description='Пользователь не аутентифицирован',
+            response={
+                'type': 'object',
+                'properties': {
+                    'error': {
+                        'type': 'string',
+                        'description': 'Ошибка аутентификации'
+                    }
+                }
+            }
+        )
+    },
+    tags=['baskets']
     ),
     retrieve = extend_schema(
         summary = 'Получение информации о товаре в корзине',
@@ -113,14 +180,36 @@ backet_schema = extend_schema_view(
         tags = ['baskets']
     ),
     delete_item = extend_schema(
-        summary = 'Удаление товара из корзины',
-        description = 'Удаление товара из корзины',
-        tags = ['baskets']
+        summary='Удаление товара из корзины',
+    methods=['DELETE'],
+    responses={
+        200: OpenApiResponse(
+            description='Товар успешно удален из корзины',
+            response={
+                'type': 'object',
+                'properties': {
+                    'message': {
+                        'type': 'string',
+                        'description': 'Сообщение об успешном удалении товара'
+                    }
+                }
+            }
+        ),
+        404: OpenApiResponse(
+            description='Товар не найден в корзине',
+            response={
+                'type': 'object',
+                'properties': {
+                    'error': {
+                        'type': 'string',
+                        'description': 'Ошибка, если товар не найден'
+                    }
+                }
+            }
+        )
+    },
+    tags=['baskets']
     ),
 )
 
 basket_schema = backet_schema(BasketViewSet)
-
-
-
-
